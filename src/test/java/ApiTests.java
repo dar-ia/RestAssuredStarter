@@ -3,7 +3,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
@@ -49,7 +48,6 @@ public class ApiTests extends TestBase {
                 .body("name", equalTo("morpheus"))
                 .body("job", equalTo("leader"))
                 .body("id", notNullValue());
-
     }
     @Test
     @DisplayName("Update User with PUT API")
@@ -73,7 +71,6 @@ public class ApiTests extends TestBase {
                 .body("name", equalTo("morpheus"))
                 .body("job", equalTo("leader"))
                 .body("id", notNullValue());
-
     }
     @Test
     @DisplayName("Update user with PATCH API")
@@ -98,13 +95,10 @@ public class ApiTests extends TestBase {
                 .body("updatedAt", notNullValue())
                 .body("name", equalTo("morpheus"))
                 .body("job",equalTo("zion resident"));
-
-
     }
     @Test
     @DisplayName("Delete user with DELETE API")
     void deleteUserPositiveTest() {
-
         given()
                 .log().method()
                 .log().uri()
