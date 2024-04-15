@@ -1,9 +1,12 @@
 plugins {
     id 'java-library'
+    id "io.freefair.lombok" version "6.0.0-m2"
 }
 repositories {
     mavenCentral()
 }
+def restAssuredVersion = "5.3.1"
+
 compileJava {
     options.encoding = 'UTF-8'
 }
@@ -14,10 +17,11 @@ compileTestJava {
 dependencies {
     testImplementation(
             "com.codeborne:selenide:6.19.1",
+            "io.rest-assured:rest-assured:$restAssuredVersion",
+            "io.rest-assured:json-schema-validator:$restAssuredVersion",
 
     )
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
-    implementation 'io.rest-assured:rest-assured:5.4.0'
 
 }
 
