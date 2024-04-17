@@ -3,7 +3,7 @@ package models;
 import lombok.Data;
 
 @Data
-public class UserInListModel {
+public class SingleUserModel {
     int id;
     String email,
             first_name,

@@ -8,7 +8,7 @@ public class ListUsersResponseModel {
             per_page,
             total,
             total_pages;
-    UserInListModel[] data;
+    SingleUserModel[] data;
     SupportResponseModel support;
 
 
