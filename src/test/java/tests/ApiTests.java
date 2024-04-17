@@ -1,7 +1,5 @@
 package tests;
 
-import io.qameta.allure.Step;
-import io.restassured.http.ContentType;
 import models.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -21,7 +19,7 @@ public class ApiTests extends TestBase {
     @ParameterizedTest(name = "№ {0} with GET API")
     void pagesAreNotEmptyTest(int page) {
         ListUsersResponseModel response = step("Send request", () -> {
-                    return given(sendRequestSpec)
+                    return given(sendEmptyBodyRequestSpec)
                             .when()
                             .get("/api/users?page=" + page)
                             .then()
@@ -42,7 +40,7 @@ public class ApiTests extends TestBase {
         requestBody.setName("morpheus");
         requestBody.setJob("leader");
         CreateUserResponseModel reponse = step("Send request", () -> {
-            return given(sendRequestSpec)
+            return given(sendRequestWithBodySpec)
                     .body(requestBody)
                     .when()
                     .post("/api/users")
@@ -64,7 +62,7 @@ public class ApiTests extends TestBase {
         requestBody.setName("morpheus");
         requestBody.setJob("caller");
         UpdateUserResponseModel response = step("Send request", () -> {
-            return given(sendRequestSpec)
+            return given(sendRequestWithBodySpec)
                     .body(requestBody)
                     .when()
                     .put("/api/users/2")
@@ -86,7 +84,7 @@ public class ApiTests extends TestBase {
         requestBody.setName("morpheus");
         requestBody.setJob("zion resident");
         UpdateUserResponseModel response = step("Send request", () -> {
-            return given(sendRequestSpec)
+            return given(sendRequestWithBodySpec)
                     .body(requestBody)
                     .when()
                     .patch("/api/users/2")
@@ -106,7 +104,7 @@ public class ApiTests extends TestBase {
     void getNotExistingUserFailsTest() {
         SingleUserModel response =
                 step("Send request", () -> {
-                    return given(sendRequestSpec)
+                    return given(sendEmptyBodyRequestSpec)
                             .when()
                             .get("/api/users/23")
                             .then()

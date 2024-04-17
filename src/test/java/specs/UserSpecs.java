@@ -8,12 +8,17 @@ import static helpers.CustomAllureListener.withCustomTemplates;
 import static io.restassured.RestAssured.with;
 
 public class UserSpecs {
-    public static RequestSpecification sendRequestSpec = with()
+    public static RequestSpecification sendRequestWithBodySpec = with()
             .filter(withCustomTemplates())
             .log().method()
             .log().uri()
             .log().body()
             .contentType(ContentType.JSON);
+
+    public static RequestSpecification sendEmptyBodyRequestSpec = with()
+            .filter(withCustomTemplates())
+            .log().method()
+            .log().uri();
 
     public static ResponseSpecification updateFetchResponseSpec = new ResponseSpecBuilder()
             .expectStatusCode(200)
