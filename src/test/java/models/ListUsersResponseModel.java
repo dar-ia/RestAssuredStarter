@@ -1,15 +1,16 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
 public class ListUsersResponseModel {
     int page,
-            per_page,
-            total,
-            total_pages;
+            total;
+    @JsonProperty("per_page")
+    int per_page;
+    @JsonProperty("total_pages")
+    int totalPages;
     SingleUserModel[] data;
     SupportResponseModel support;
-
-
 }

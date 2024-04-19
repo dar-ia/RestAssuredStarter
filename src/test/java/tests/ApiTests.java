@@ -18,14 +18,12 @@ public class ApiTests extends TestBase {
     @DisplayName("List users on the page ")
     @ParameterizedTest(name = "№ {0} with GET API")
     void pagesAreNotEmptyTest(int page) {
-        ListUsersResponseModel response = step("Send request", () -> {
-                    return given(sendEmptyBodyRequestSpec)
-                            .when()
-                            .get("/api/users?page=" + page)
-                            .then()
-                            .spec(updateFetchResponseSpec)
-                            .extract().as(ListUsersResponseModel.class);
-                }
+        ListUsersResponseModel response = step("Send request", () -> given(sendEmptyBodyRequestSpec)
+                .when()
+                .get("/users?page=" + page)
+                .then()
+                .spec(updateFetchResponseSpec)
+                .extract().as(ListUsersResponseModel.class)
         );
         step("Validate response", () -> {
             Assertions.assertEquals(page, response.getPage());
@@ -36,14 +34,14 @@ public class ApiTests extends TestBase {
     @Test
     @DisplayName("Create user with POST API")
     void postUserApiTest() {
-        CreateUserRequestModel requestBody = new CreateUserRequestModel();
+        SendUserRequestModel requestBody = new SendUserRequestModel();
         requestBody.setName("morpheus");
         requestBody.setJob("leader");
         CreateUserResponseModel reponse = step("Send request", () -> {
             return given(sendRequestWithBodySpec)
                     .body(requestBody)
                     .when()
-                    .post("/api/users")
+                    .post("/users")
                     .then()
                     .spec(createResponseSpec)
                     .extract().as(CreateUserResponseModel.class);
@@ -58,44 +56,43 @@ public class ApiTests extends TestBase {
     @Test
     @DisplayName("Update User with PUT API")
     void putUpdateUserPositiveTest() {
-        UpdateUserRequestModel requestBody = new UpdateUserRequestModel();
+        SendUserRequestModel requestBody = new SendUserRequestModel();
         requestBody.setName("morpheus");
         requestBody.setJob("caller");
-        UpdateUserResponseModel response = step("Send request", () -> {
-            return given(sendRequestWithBodySpec)
-                    .body(requestBody)
-                    .when()
-                    .put("/api/users/2")
-                    .then()
-                    .spec(updateFetchResponseSpec)
-                    .extract().as(UpdateUserResponseModel.class);
-        });
+        UpdateUserResponseModel response = step("Send request", () -> given(sendRequestWithBodySpec)
+                .body(requestBody)
+                .when()
+                .put("/users/2")
+                .then()
+                .spec(updateFetchResponseSpec)
+                .extract().as(UpdateUserResponseModel.class)
+        );
         step("Validate response", () -> {
             Assertions.assertEquals("morpheus", response.getName());
             Assertions.assertEquals("caller", response.getJob());
-            Assertions.assertNotNull("updatedAt");
+            Assertions.assertNotNull(response.getUpdatedAt());
         });
     }
 
     @Test
     @DisplayName("Update user with PATCH API")
     void patchUserPositiveTest() {
-        UpdateUserRequestModel requestBody = new UpdateUserRequestModel();
+        SendUserRequestModel requestBody = new SendUserRequestModel();
         requestBody.setName("morpheus");
         requestBody.setJob("zion resident");
-        UpdateUserResponseModel response = step("Send request", () -> {
-            return given(sendRequestWithBodySpec)
-                    .body(requestBody)
-                    .when()
-                    .patch("/api/users/2")
-                    .then()
-                    .spec(updateFetchResponseSpec)
-                    .extract().as(UpdateUserResponseModel.class);
-        });
+        UpdateUserResponseModel response = step("Send request", () ->
+                given(sendRequestWithBodySpec)
+                        .body(requestBody)
+                        .when()
+                        .patch("/users/2")
+                        .then()
+                        .spec(updateFetchResponseSpec)
+                        .extract().as(UpdateUserResponseModel.class)
+        );
         step("Validate response", () -> {
             Assertions.assertEquals("morpheus", response.getName());
             Assertions.assertEquals("zion resident", response.getJob());
-            Assertions.assertNotNull("updatedAt");
+            Assertions.assertNotNull(response.getUpdatedAt());
         });
     }
 
@@ -103,20 +100,19 @@ public class ApiTests extends TestBase {
     @DisplayName("Get not existing user")
     void getNotExistingUserFailsTest() {
         SingleUserModel response =
-                step("Send request", () -> {
-                    return given(sendEmptyBodyRequestSpec)
-                            .when()
-                            .get("/api/users/23")
-                            .then()
-                            .spec(notFoundResponseSpec)
-                            .extract().as(SingleUserModel.class);
-                });
+                step("Send request", () -> given(sendEmptyBodyRequestSpec)
+                        .when()
+                        .get("/users/23")
+                        .then()
+                        .spec(notFoundResponseSpec)
+                        .extract().as(SingleUserModel.class)
+                );
         step("Validate response", () -> {
             Assertions.assertEquals(0, response.getId());
             Assertions.assertNull(response.getEmail());
             Assertions.assertNull(response.getAvatar());
-            Assertions.assertNull(response.getLast_name());
-            Assertions.assertNull(response.getFirst_name());
+            Assertions.assertNull(response.getLastName());
+            Assertions.assertNull(response.getFirstName());
         });
     }
 }
